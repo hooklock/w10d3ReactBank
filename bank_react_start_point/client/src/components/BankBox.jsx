@@ -8,12 +8,18 @@ var BankBox = React.createClass({
     return {accounts: Accounts}
   },
 
+  handleAddAccount: function(account){
+    account.id = Date.now();
+    var newAccounts = this.state.accounts.concat([account]);
+    this.setState({accounts: newAccounts});
+  },
+
   accountTotal: function(accounts){
     var total = 0;
     for(var account of accounts){
       total += account.amount;
     }
-    // console.log(total);
+    console.log(total);
     return total;
   },
 
@@ -24,6 +30,8 @@ var BankBox = React.createClass({
     return accountList;
   },
 
+
+
   render: function(){
 
     return(
@@ -31,9 +39,10 @@ var BankBox = React.createClass({
         <h1>The Bank</h1>
         <h2>Total Holdings: £{this.accountTotal(this.state.accounts).toLocaleString()}</h2>
 
-        <AccountBox total={this.accountTotal(this.filteredAccounts("Personal"))} accounts={this.filteredAccounts("Personal")}/>
+        <AccountBox total={this.accountTotal(this.filteredAccounts("Personal"))} accounts={this.filteredAccounts("Personal")} addAccount={this.handleAddAccount}/>
 
-        <AccountBox total={this.accountTotal(this.filteredAccounts("Business"))} accounts={this.filteredAccounts("Business")}/>
+        <AccountBox total={this.accountTotal(this.filteredAccounts("Business"))} accounts={this.filteredAccounts("Business")} addAccount={this.handleAddAccount}/>
+
       </div>
     )
   }

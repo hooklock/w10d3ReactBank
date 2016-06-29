@@ -19705,6 +19705,12 @@
 	    return { accounts: Accounts };
 	  },
 	
+	  handleAddAccount: function handleAddAccount(account) {
+	    account.id = Date.now();
+	    var newAccounts = this.state.accounts.concat([account]);
+	    this.setState({ accounts: newAccounts });
+	  },
+	
 	  accountTotal: function accountTotal(accounts) {
 	    var total = 0;
 	    var _iteratorNormalCompletion = true;
@@ -19717,7 +19723,6 @@
 	
 	        total += account.amount;
 	      }
-	      // console.log(total);
 	    } catch (err) {
 	      _didIteratorError = true;
 	      _iteratorError = err;
@@ -19733,6 +19738,7 @@
 	      }
 	    }
 	
+	    console.log(total);
 	    return total;
 	  },
 	
@@ -19759,8 +19765,8 @@
 	        "Total Holdings: £",
 	        this.accountTotal(this.state.accounts).toLocaleString()
 	      ),
-	      React.createElement(AccountBox, { total: this.accountTotal(this.filteredAccounts("Personal")), accounts: this.filteredAccounts("Personal") }),
-	      React.createElement(AccountBox, { total: this.accountTotal(this.filteredAccounts("Business")), accounts: this.filteredAccounts("Business") })
+	      React.createElement(AccountBox, { total: this.accountTotal(this.filteredAccounts("Personal")), accounts: this.filteredAccounts("Personal"), addAccount: this.handleAddAccount }),
+	      React.createElement(AccountBox, { total: this.accountTotal(this.filteredAccounts("Business")), accounts: this.filteredAccounts("Business"), addAccount: this.handleAddAccount })
 	    );
 	  }
 	});
@@ -19797,10 +19803,33 @@
 	"use strict";
 	
 	var React = __webpack_require__(1);
+	var AccountList = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
 	var AccountBox = React.createClass({
 	  displayName: "AccountBox",
 	
+	
+	  getInitialState: function getInitialState() {
+	    return { owner: "", amount: 0, type: "Personal" };
+	  },
+	
+	  handleOwnerChange: function handleOwnerChange(e) {
+	    this.setState({ owner: e.target.value });
+	  },
+	
+	  handleAmountChange: function handleAmountChange(e) {
+	    this.setState({ amount: parseFloat(e.target.value) });
+	  },
+	
+	  handleTypeChange: function handleTypeChange(e) {
+	    this.setState({ type: e.target.options[e.target.selectedIndex].value });
+	  },
+	
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    this.props.addAccount({ owner: this.state.owner, amount: this.state.amount, type: this.state.type });
+	    this.setState({ owner: "", amount: 0, type: "" });
+	  },
 	
 	  render: function render() {
 	
@@ -19826,7 +19855,7 @@
 	        )
 	      );
 	    });
-	    // this.props.total = this.props.total.toFixed(2)
+	
 	    return React.createElement(
 	      "div",
 	      null,
@@ -19842,7 +19871,28 @@
 	          this.props.total.toLocaleString()
 	        )
 	      ),
-	      allAccounts
+	      allAccounts,
+	      React.createElement(
+	        "form",
+	        { onSubmit: this.handleSubmit },
+	        React.createElement("input", { type: "text", placeholder: "Account Owner", value: this.state.owner, onChange: this.handleOwnerChange }),
+	        React.createElement("input", { type: "number", placeholder: "Account Amount", value: this.state.amount, onChange: this.handleAmountChange }),
+	        React.createElement(
+	          "select",
+	          { value: this.state.type, onChange: this.handleTypeChange },
+	          React.createElement(
+	            "option",
+	            { value: "Personal" },
+	            "Personal"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "Business" },
+	            "Business"
+	          )
+	        ),
+	        React.createElement("input", { type: "submit", value: "Add Account" })
+	      )
 	    );
 	  }
 	});
