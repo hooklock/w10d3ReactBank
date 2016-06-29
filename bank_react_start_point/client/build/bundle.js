@@ -19696,6 +19696,7 @@
 	var React = __webpack_require__(1);
 	var Accounts = __webpack_require__(160);
 	var AccountBox = __webpack_require__(161);
+	var AccountList = __webpack_require__(163);
 	
 	var BankBox = React.createClass({
 	  displayName: "BankBox",
@@ -19765,8 +19766,9 @@
 	        "Total Holdings: £",
 	        this.accountTotal(this.state.accounts).toLocaleString()
 	      ),
-	      React.createElement(AccountBox, { total: this.accountTotal(this.filteredAccounts("Personal")), accounts: this.filteredAccounts("Personal"), addAccount: this.handleAddAccount }),
-	      React.createElement(AccountBox, { total: this.accountTotal(this.filteredAccounts("Business")), accounts: this.filteredAccounts("Business"), addAccount: this.handleAddAccount })
+	      React.createElement(AccountList, { total: this.accountTotal(this.filteredAccounts("Personal")), accounts: this.filteredAccounts("Personal") }),
+	      React.createElement(AccountList, { total: this.accountTotal(this.filteredAccounts("Business")), accounts: this.filteredAccounts("Business") }),
+	      React.createElement(AccountBox, { addAccount: this.handleAddAccount })
 	    );
 	  }
 	});
@@ -19803,7 +19805,7 @@
 	"use strict";
 	
 	var React = __webpack_require__(1);
-	var AccountList = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var AccountList = __webpack_require__(163);
 	
 	var AccountBox = React.createClass({
 	  displayName: "AccountBox",
@@ -19833,45 +19835,9 @@
 	
 	  render: function render() {
 	
-	    var allAccounts = this.props.accounts.map(function (account) {
-	      return React.createElement(
-	        "div",
-	        { key: account.owner },
-	        React.createElement(
-	          "h4",
-	          null,
-	          account.owner,
-	          " - ",
-	          React.createElement(
-	            "span",
-	            null,
-	            React.createElement(
-	              "i",
-	              null,
-	              "£",
-	              account.amount.toLocaleString()
-	            )
-	          )
-	        )
-	      );
-	    });
-	
 	    return React.createElement(
 	      "div",
 	      null,
-	      React.createElement(
-	        "h2",
-	        null,
-	        this.props.accounts[0].type,
-	        " ",
-	        React.createElement(
-	          "span",
-	          null,
-	          " £",
-	          this.props.total.toLocaleString()
-	        )
-	      ),
-	      allAccounts,
 	      React.createElement(
 	        "form",
 	        { onSubmit: this.handleSubmit },
@@ -19898,6 +19864,67 @@
 	});
 	
 	module.exports = AccountBox;
+
+/***/ },
+/* 162 */,
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
+	var AccountList = React.createClass({
+	  displayName: 'AccountList',
+	
+	
+	  render: function render() {
+	
+	    var allAccounts = this.props.accounts.map(function (account) {
+	      return React.createElement(
+	        'div',
+	        { key: account.owner },
+	        React.createElement(
+	          'h4',
+	          null,
+	          account.owner,
+	          ' - ',
+	          React.createElement(
+	            'span',
+	            null,
+	            React.createElement(
+	              'i',
+	              null,
+	              '£',
+	              account.amount.toLocaleString()
+	            )
+	          )
+	        )
+	      );
+	    });
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h2',
+	        null,
+	        this.props.accounts[0].type,
+	        ' ',
+	        React.createElement(
+	          'span',
+	          null,
+	          ' £',
+	          this.props.total.toLocaleString()
+	        )
+	      ),
+	      allAccounts
+	    );
+	  }
+	
+	});
+	
+	module.exports = AccountList;
 
 /***/ }
 /******/ ]);

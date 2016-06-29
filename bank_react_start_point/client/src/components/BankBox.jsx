@@ -1,6 +1,7 @@
 var React = require("react");
 var Accounts = require("../sample_accounts.js");
-var AccountBox = require("./AccountBox");
+var AccountBox = require("./AccountBox.jsx");
+var AccountList = require("./AccountList.jsx");
 
 var BankBox = React.createClass({
 
@@ -30,8 +31,6 @@ var BankBox = React.createClass({
     return accountList;
   },
 
-
-
   render: function(){
 
     return(
@@ -39,9 +38,11 @@ var BankBox = React.createClass({
         <h1>The Bank</h1>
         <h2>Total Holdings: £{this.accountTotal(this.state.accounts).toLocaleString()}</h2>
 
-        <AccountBox total={this.accountTotal(this.filteredAccounts("Personal"))} accounts={this.filteredAccounts("Personal")} addAccount={this.handleAddAccount}/>
+        <AccountList total={this.accountTotal(this.filteredAccounts("Personal"))} accounts={this.filteredAccounts("Personal")}/>
 
-        <AccountBox total={this.accountTotal(this.filteredAccounts("Business"))} accounts={this.filteredAccounts("Business")} addAccount={this.handleAddAccount}/>
+        <AccountList total={this.accountTotal(this.filteredAccounts("Business"))} accounts={this.filteredAccounts("Business")}/>
+
+        <AccountBox addAccount={this.handleAddAccount}/>
 
       </div>
     )
