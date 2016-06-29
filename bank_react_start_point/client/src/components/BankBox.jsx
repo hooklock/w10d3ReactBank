@@ -1,6 +1,6 @@
 var React = require("react");
 var Accounts = require("../sample_accounts.js");
-var AccountBox = require("./AccountBox.jsx");
+var AccountForm = require("./AccountForm.jsx");
 var AccountList = require("./AccountList.jsx");
 
 var BankBox = React.createClass({
@@ -42,7 +42,7 @@ var BankBox = React.createClass({
 
         <AccountList total={this.accountTotal(this.filteredAccounts("Business"))} accounts={this.filteredAccounts("Business")}/>
 
-        <AccountBox addAccount={this.handleAddAccount}/>
+        <AccountForm addAccount={this.handleAddAccount}/>
 
       </div>
     )

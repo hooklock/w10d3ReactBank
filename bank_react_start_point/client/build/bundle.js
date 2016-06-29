@@ -19695,7 +19695,7 @@
 	
 	var React = __webpack_require__(1);
 	var Accounts = __webpack_require__(160);
-	var AccountBox = __webpack_require__(161);
+	var AccountForm = __webpack_require__(164);
 	var AccountList = __webpack_require__(163);
 	
 	var BankBox = React.createClass({
@@ -19768,7 +19768,7 @@
 	      ),
 	      React.createElement(AccountList, { total: this.accountTotal(this.filteredAccounts("Personal")), accounts: this.filteredAccounts("Personal") }),
 	      React.createElement(AccountList, { total: this.accountTotal(this.filteredAccounts("Business")), accounts: this.filteredAccounts("Business") }),
-	      React.createElement(AccountBox, { addAccount: this.handleAddAccount })
+	      React.createElement(AccountForm, { addAccount: this.handleAddAccount })
 	    );
 	  }
 	});
@@ -19799,73 +19799,7 @@
 	}];
 
 /***/ },
-/* 161 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var React = __webpack_require__(1);
-	var AccountList = __webpack_require__(163);
-	
-	var AccountBox = React.createClass({
-	  displayName: "AccountBox",
-	
-	
-	  getInitialState: function getInitialState() {
-	    return { owner: "", amount: 0, type: "Personal" };
-	  },
-	
-	  handleOwnerChange: function handleOwnerChange(e) {
-	    this.setState({ owner: e.target.value });
-	  },
-	
-	  handleAmountChange: function handleAmountChange(e) {
-	    this.setState({ amount: parseFloat(e.target.value) });
-	  },
-	
-	  handleTypeChange: function handleTypeChange(e) {
-	    this.setState({ type: e.target.options[e.target.selectedIndex].value });
-	  },
-	
-	  handleSubmit: function handleSubmit(e) {
-	    e.preventDefault();
-	    this.props.addAccount({ owner: this.state.owner, amount: this.state.amount, type: this.state.type });
-	    this.setState({ owner: "", amount: 0, type: "" });
-	  },
-	
-	  render: function render() {
-	
-	    return React.createElement(
-	      "div",
-	      null,
-	      React.createElement(
-	        "form",
-	        { onSubmit: this.handleSubmit },
-	        React.createElement("input", { type: "text", placeholder: "Account Owner", value: this.state.owner, onChange: this.handleOwnerChange }),
-	        React.createElement("input", { type: "number", placeholder: "Account Amount", value: this.state.amount, onChange: this.handleAmountChange }),
-	        React.createElement(
-	          "select",
-	          { value: this.state.type, onChange: this.handleTypeChange },
-	          React.createElement(
-	            "option",
-	            { value: "Personal" },
-	            "Personal"
-	          ),
-	          React.createElement(
-	            "option",
-	            { value: "Business" },
-	            "Business"
-	          )
-	        ),
-	        React.createElement("input", { type: "submit", value: "Add Account" })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = AccountBox;
-
-/***/ },
+/* 161 */,
 /* 162 */,
 /* 163 */
 /***/ function(module, exports, __webpack_require__) {
@@ -19925,6 +19859,76 @@
 	});
 	
 	module.exports = AccountList;
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	var AccountList = __webpack_require__(163);
+	
+	var AccountForm = React.createClass({
+	  displayName: "AccountForm",
+	
+	
+	  getInitialState: function getInitialState() {
+	    return { owner: "", amount: 0, type: "Personal" };
+	    //Setting "Personal" here means the drop down does not have to be changed to get type passed on initial submit
+	  },
+	
+	  handleOwnerChange: function handleOwnerChange(e) {
+	    this.setState({ owner: e.target.value });
+	  },
+	
+	  handleAmountChange: function handleAmountChange(e) {
+	    this.setState({ amount: parseFloat(e.target.value) });
+	    //When number was input, went in as String - adding parseFloat here makes it go in as a number
+	  },
+	
+	  handleTypeChange: function handleTypeChange(e) {
+	    this.setState({ type: e.target.options[e.target.selectedIndex].value });
+	    //The above for when an options solution is used as opposed to just e.target.value
+	  },
+	
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    this.props.addAccount({ owner: this.state.owner, amount: this.state.amount, type: this.state.type });
+	    this.setState({ owner: "", amount: 0, type: "" });
+	  },
+	
+	  render: function render() {
+	
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "form",
+	        { onSubmit: this.handleSubmit },
+	        React.createElement("input", { type: "text", placeholder: "Account Owner", value: this.state.owner, onChange: this.handleOwnerChange }),
+	        React.createElement("input", { type: "number", placeholder: "Account Amount", value: this.state.amount, onChange: this.handleAmountChange }),
+	        React.createElement(
+	          "select",
+	          { value: this.state.type, onChange: this.handleTypeChange },
+	          React.createElement(
+	            "option",
+	            { value: "Personal" },
+	            "Personal"
+	          ),
+	          React.createElement(
+	            "option",
+	            { value: "Business" },
+	            "Business"
+	          )
+	        ),
+	        React.createElement("input", { type: "submit", value: "Add Account" })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = AccountForm;
 
 /***/ }
 /******/ ]);
